@@ -1,3 +1,5 @@
+using System;
+
 namespace Domain
 {
     public class FundsTransfer
@@ -5,9 +7,20 @@ namespace Domain
         private readonly BankAccount source;
         private readonly BankAccount target;
         private readonly decimal amount;
+        private const string TransferToSameAccount = "TRANSFER_TO_SAME_ACCOUNT_ERROR";
+        private const string NegativeAmount = "NEGATIVE_AMOUNT";
 
         public FundsTransfer(BankAccount sourceAccount, BankAccount targetAccount, decimal amount)
         {
+            if (sourceAccount.Equals(targetAccount))
+            {
+                throw new InvalidBankOperationException(TransferToSameAccount);
+            }
+
+            if (amount <= 0m)
+            {
+                throw new InvalidBankOperationException(NegativeAmount);
+            }
             this.source = sourceAccount;
             this.target = targetAccount;
             this.amount = amount;
@@ -16,9 +29,17 @@ namespace Domain
 
         public void Execute()
         {
-            this.source.Debit(this.amount);
-            this.target.Credit(this.amount);
-            this.State = FundsTransferState.Completed;
+            try
+            {
+                this.source.Debit(this.amount);
+                this.target.Credit(this.amount);
+                this.State = FundsTransferState.Completed;
+            }
+            catch (Exception e)
+            {
+                this.State = FundsTransferState.Failed;
+                throw;
+            }
         }
 
         public FundsTransferState State { get; private set; }
@@ -27,6 +48,7 @@ namespace Domain
     public enum FundsTransferState
     {
         Completed,
-        Pending
+        Pending,
+        Failed
     }
 }

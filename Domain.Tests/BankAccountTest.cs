@@ -17,7 +17,7 @@ namespace Domain.Tests
 
             var bankAccount = new BankAccount(accountOwner);
 
-            bankAccount.Balance.Should().Be(0m);
+            Assert.That(bankAccount.Balance, Is.EqualTo(0m));
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace Domain.Tests
 
             bankAccount.Debit(10m);
 
-            bankAccount.Balance.Should().Be(90m);
+            Assert.That(bankAccount.Balance, Is.EqualTo(90m));
         }
 
         [Test]
@@ -46,7 +46,34 @@ namespace Domain.Tests
 
             bankAccount.Credit(100m);
 
-            bankAccount.Balance.Should().Be(100m);
+            Assert.That(bankAccount.Balance, Is.EqualTo(100m));
         }
+
+        [Test]
+        public void ErrorWhenDebitAmountIsNegative()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var bankAccount = new BankAccount(accountOwner);
+
+            Assert.Throws<InvalidBankOperationException>(() => bankAccount.Debit(-100m));
+        }
+
+        [Test]
+        public void ErrorWhenDebitFromAccountWhoseOwnerIsBloked()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            accountOwner.SetBlocked();
+            var bankAccount = new BankAccount(accountOwner);
+
+            Assert.Throws<InvalidBankOperationException>(() => bankAccount.Debit(-100m));
+        }
+
+
     }
 }

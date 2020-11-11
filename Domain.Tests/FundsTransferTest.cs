@@ -8,7 +8,7 @@ namespace Domain.Tests
     public class FundsTransferTest
     {
         [Test]
-        public void IsCreateWithPendingState()
+        public void StatsIsPendingWhenCreated()
         {
             var firstName = "John";
             var lastName = "Doe";
@@ -19,11 +19,11 @@ namespace Domain.Tests
             var transferAmount = 100m;
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
 
-            fundsTransfer.State.Should().Be(FundsTransferState.Pending);
+            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Pending));
         }
 
         [Test]
-        public void DecrementsBalanceInSourceAccount()
+        public void StateChangesToCompletedWhenExecute()
         {
             var firstName = "John";
             var lastName = "Doe";
@@ -33,9 +33,57 @@ namespace Domain.Tests
             var targetAccount = new BankAccount(accountOwner);
             var transferAmount = 100m;
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
+
             fundsTransfer.Execute();
 
-            //Assert.Equal(FundsTransferState.Completed, fundsTransfer.State);
+            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Completed));
         }
+
+        [Test]
+        public void StateChangesToFailedWhenExecuteFails()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            accountOwner.SetBlocked();
+            var sourceAccount = new BankAccount(accountOwner);
+            var targetAccount = new BankAccount(accountOwner);
+            var transferAmount = 100m;
+            var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
+
+            Assert.Throws<InvalidBankOperationException>(() => fundsTransfer.Execute());
+
+            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Failed));
+        }
+
+        [Test]
+        public void InvalidBankOperacionIsRaisedWhenTransferToTheSameAccount()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var sourceAccount = new BankAccount(accountOwner);
+            var targetAccount = sourceAccount;
+            var transferAmount = 100m;
+
+            Assert.Throws<InvalidBankOperationException>(() => new FundsTransfer(sourceAccount, targetAccount, transferAmount));
+        }
+
+        [Test]
+        public void InvalidBankOperacionIsRaisedWhenTransferNegativeAmount()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var sourceAccount = new BankAccount(accountOwner);
+            var targetAccount = new BankAccount(accountOwner);
+            var transferAmount = -100m;
+
+            Assert.Throws<InvalidBankOperationException>(() => new FundsTransfer(sourceAccount, targetAccount, transferAmount));
+        }
+
     }
 }
