@@ -23,6 +23,29 @@ namespace Domain.Tests
         }
 
         [Test]
+        public void DebitInSourceAccountAndCreditInTarjetAccount()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
+            sourceAccount.Credit(100);
+            var targetAccount = new BankAccount(accountOwner, branch);;
+            targetAccount.Credit(100);
+            var transferAmount = 100m;
+
+            var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
+
+            fundsTransfer.Execute();
+
+            Assert.That(sourceAccount.Balance, Is.EqualTo(0));
+            Assert.That(targetAccount.Balance, Is.EqualTo(200));
+            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Completed));
+        }
+
+        [Test]
         public void StateChangesToCompletedWhenExecute()
         {
             var firstName = "John";
@@ -57,28 +80,6 @@ namespace Domain.Tests
             Assert.Throws<InvalidBankOperationException>(() => fundsTransfer.Execute());
 
             Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Failed));
-        }
-
-        [Test]
-        public void DebitInSourceAccountAndCreditInTarjetAccount()
-        {
-            var firstName = "John";
-            var lastName = "Doe";
-            var fiscalIdentifier = Guid.NewGuid().ToString("N");
-            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
-            var sourceAccount = new BankAccount(accountOwner, branch);
-            sourceAccount.Credit(100);
-            var targetAccount = new BankAccount(accountOwner, branch);;
-            targetAccount.Credit(100);
-            var transferAmount = 100m;
-
-            var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
-
-            fundsTransfer.Execute();
-
-            Assert.That(sourceAccount.Balance, Is.EqualTo(0));
-            Assert.That(targetAccount.Balance, Is.EqualTo(200));
         }
 
         [Test]
