@@ -2,13 +2,13 @@ namespace Domain
 {
     public class BankAccount
     {
-        private Customer owner;
-        private Branch branch;
+        public Customer Customer { get; private set; }
+        public Branch Branch { get; private set; }
 
         public BankAccount(Customer accountOwner, Branch branch)
         {
-            this.owner = accountOwner;
-            this.branch = branch;
+            this.Customer = accountOwner;
+            this.Branch = branch;
         }
 
         public decimal Balance { get; private set; }
@@ -20,7 +20,7 @@ namespace Domain
                 throw new InvalidBankOperationException("NEGATIVE_AMOUNT");
             }
 
-            if (this.owner.IsBlocked())
+            if (this.Customer.IsBlocked())
             {
                 throw new InvalidBankOperationException("OWNER_BLOCKED");
             }

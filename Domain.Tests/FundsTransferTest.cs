@@ -13,7 +13,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
@@ -29,7 +30,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             sourceAccount.Credit(500);
             var targetAccount = new BankAccount(accountOwner, branch);;
@@ -81,7 +83,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
@@ -100,7 +103,8 @@ namespace Domain.Tests
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
             accountOwner.SetBlocked();
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
@@ -118,7 +122,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = sourceAccount;
             var transferAmount = 100m;
@@ -133,7 +138,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var branch = new Branch("MainBranch", 1);
+            var address = new Address("Long Avenue", 1234, "London");
+            var branch = new Branch("MainBranch", 1, address);
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = -100m;

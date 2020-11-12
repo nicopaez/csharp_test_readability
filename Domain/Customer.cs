@@ -2,16 +2,16 @@
 {
     public class Customer
     {
-        private string firstName;
-        private string lastName;
-        private string fiscalIdentifier;
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
+        public string FiscalIdentifier { get; private set; }
         private bool isBlocked;
 
         public Customer(string firstName, string lastName, string fiscalIdentifier)
         {
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.fiscalIdentifier = fiscalIdentifier;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.FiscalIdentifier = fiscalIdentifier;
             this.isBlocked = false;
         }
 

@@ -4,8 +4,8 @@ namespace Domain
 {
     public class FundsTransfer
     {
-        private readonly BankAccount source;
-        private readonly BankAccount target;
+        private readonly BankAccount sourceAccount;
+        private readonly BankAccount targetAccount;
         private readonly decimal amount;
         private const string TransferToSameAccount = "TRANSFER_TO_SAME_ACCOUNT_ERROR";
         private const string NegativeAmount = "NEGATIVE_AMOUNT";
@@ -21,8 +21,8 @@ namespace Domain
             {
                 throw new InvalidBankOperationException(NegativeAmount);
             }
-            this.source = sourceAccount;
-            this.target = targetAccount;
+            this.sourceAccount = sourceAccount;
+            this.targetAccount = targetAccount;
             this.amount = amount;
             this.State = FundsTransferState.Pending;
         }
@@ -31,8 +31,8 @@ namespace Domain
         {
             try
             {
-                this.source.Debit(this.amount);
-                this.target.Credit(this.amount);
+                this.sourceAccount.Debit(this.amount);
+                this.targetAccount.Credit(this.amount);
                 this.State = FundsTransferState.Completed;
             }
             catch (Exception)

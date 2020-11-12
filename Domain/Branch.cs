@@ -6,7 +6,7 @@ namespace Domain
 
         public int Number { get; private set; }
 
-        public Branch(string name, int number)
+        public Branch(string name, int number, Address address)
         {
             this.Name = name;
             this.Number = number;
