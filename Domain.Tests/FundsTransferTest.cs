@@ -13,8 +13,9 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var sourceAccount = new BankAccount(accountOwner);
-            var targetAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
+            var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
 
@@ -28,8 +29,9 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var sourceAccount = new BankAccount(accountOwner);
-            var targetAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
+            var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
 
@@ -46,8 +48,9 @@ namespace Domain.Tests
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
             accountOwner.SetBlocked();
-            var sourceAccount = new BankAccount(accountOwner);
-            var targetAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
+            var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = 100m;
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
 
@@ -63,9 +66,10 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var sourceAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
             sourceAccount.Credit(100);
-            var targetAccount = new BankAccount(accountOwner);;
+            var targetAccount = new BankAccount(accountOwner, branch);;
             targetAccount.Credit(100);
             var transferAmount = 100m;
 
@@ -84,7 +88,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var sourceAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = sourceAccount;
             var transferAmount = 100m;
 
@@ -98,8 +103,9 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var sourceAccount = new BankAccount(accountOwner);
-            var targetAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var sourceAccount = new BankAccount(accountOwner, branch);
+            var targetAccount = new BankAccount(accountOwner, branch);
             var transferAmount = -100m;
 
             Assert.Throws<InvalidBankOperationException>(() => new FundsTransfer(sourceAccount, targetAccount, transferAmount));

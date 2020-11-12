@@ -3,10 +3,12 @@ namespace Domain
     public class BankAccount
     {
         private Customer owner;
+        private Branch branch;
 
-        public BankAccount(Customer accountOwner)
+        public BankAccount(Customer accountOwner, Branch branch)
         {
             this.owner = accountOwner;
+            this.branch = branch;
         }
 
         public decimal Balance { get; private set; }

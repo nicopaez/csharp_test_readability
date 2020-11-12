@@ -14,7 +14,9 @@ namespace Domain.Tests
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
 
-            var bankAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var bankAccount = new BankAccount(accountOwner, branch);
+
 
             Assert.That(bankAccount.Balance, Is.EqualTo(0m));
         }
@@ -26,7 +28,9 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var bankAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var bankAccount = new BankAccount(accountOwner, branch);
+
             bankAccount.Credit(100m);
 
             bankAccount.Debit(10m);
@@ -41,7 +45,8 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var bankAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var bankAccount = new BankAccount(accountOwner, branch);
 
             bankAccount.Credit(100m);
 
@@ -55,7 +60,9 @@ namespace Domain.Tests
             var lastName = "Doe";
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
-            var bankAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var bankAccount = new BankAccount(accountOwner, branch);
+
 
             Assert.Throws<InvalidBankOperationException>(() => bankAccount.Debit(-100m));
         }
@@ -68,7 +75,9 @@ namespace Domain.Tests
             var fiscalIdentifier = Guid.NewGuid().ToString("N");
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
             accountOwner.SetBlocked();
-            var bankAccount = new BankAccount(accountOwner);
+            var branch = new Branch("MainBranch", 1);
+            var bankAccount = new BankAccount(accountOwner, branch);
+
 
             Assert.Throws<InvalidBankOperationException>(() => bankAccount.Debit(-100m));
         }
