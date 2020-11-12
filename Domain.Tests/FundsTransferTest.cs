@@ -57,6 +57,27 @@ namespace Domain.Tests
         }
 
         [Test]
+        public void DebitInSourceAccountAndCreditInTarjetAccount()
+        {
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var sourceAccount = new BankAccount(accountOwner);
+            sourceAccount.Credit(100);
+            var targetAccount = new BankAccount(accountOwner);;
+            targetAccount.Credit(100);
+            var transferAmount = 100m;
+
+            var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, transferAmount);
+
+            fundsTransfer.Execute();
+
+            Assert.That(sourceAccount.Balance, Is.EqualTo(0));
+            Assert.That(targetAccount.Balance, Is.EqualTo(200));
+        }
+
+        [Test]
         public void InvalidBankOperacionIsRaisedWhenTransferToTheSameAccount()
         {
             var firstName = "John";
