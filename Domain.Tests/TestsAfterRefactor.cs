@@ -7,7 +7,7 @@ namespace Domain.Tests
     public class TestsAfterRefactor
     {
         [Test]
-        public void FundTransferStateIsPendingWhenCreated()
+        public void FundTransferStateIsPendingWhenCreated_Refactored()
         {
             var sourceAccount = ObjectMother.CreateBankAccount();
             var targetAccount = ObjectMother.CreateBankAccount();
@@ -18,7 +18,7 @@ namespace Domain.Tests
         }
 
         [Test]
-        public void DebitInSourceAccountAndCreditInTarjetAccountRefactored()
+        public void FundsTransferDebitInSourceAccountAndCreditInTarjetAccount_Refactored()
         {
             var sourceAccount = ObjectMother.CreateBankAccount().WithBalance(500m);
             var targetAccount = ObjectMother.CreateBankAccount().WithBalance(100m);

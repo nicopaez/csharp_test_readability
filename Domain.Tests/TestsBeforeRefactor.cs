@@ -1,6 +1,4 @@
 //
-
-using System.Net.Mail;
 using NUnit.Framework;
 
 namespace Domain.Tests
@@ -24,13 +22,12 @@ namespace Domain.Tests
         }
 
         [Test]
-        public void DebitInSourceAccountAndCreditInTarjetAccount()
+        public void FundsTransferDebitInSourceAccountAndCreditInTarjetAccount()
         {
             var fiscalIdentifier = TestDataGenerator.NewGuid();
             var accountOwner = new Customer("John", "Doe", fiscalIdentifier);
             var address = new Address("Long Avenue", 1234, "London");
             var branch = new Branch("MainBranch", 1, address);
-
             var sourceAccount = new BankAccount(accountOwner, branch);
             sourceAccount.Credit(500);
             var targetAccount = new BankAccount(accountOwner, branch);;
