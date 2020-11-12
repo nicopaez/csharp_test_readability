@@ -31,7 +31,7 @@ namespace Domain.Tests
             var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
             var branch = new Branch("MainBranch", 1);
             var sourceAccount = new BankAccount(accountOwner, branch);
-            sourceAccount.Credit(100);
+            sourceAccount.Credit(500);
             var targetAccount = new BankAccount(accountOwner, branch);;
             targetAccount.Credit(100);
             var transferAmount = 100m;
@@ -40,7 +40,36 @@ namespace Domain.Tests
 
             fundsTransfer.Execute();
 
-            Assert.That(sourceAccount.Balance, Is.EqualTo(0));
+            Assert.That(sourceAccount.Balance, Is.EqualTo(400));
+            Assert.That(targetAccount.Balance, Is.EqualTo(200));
+            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Completed));
+        }
+
+        [Test]
+        public void DebitInSourceAccountAndCreditInTarjetAccountRefactored()
+        {
+            /*
+            // Not Relevant stuff for this test case
+            var firstName = "John";
+            var lastName = "Doe";
+            var fiscalIdentifier = Guid.NewGuid().ToString("N");
+            var accountOwner = new Customer(firstName, lastName, fiscalIdentifier);
+            var branch = new Branch("MainBranch", 1);
+            */
+
+            // var sourceAccount = new BankAccount(accountOwner, branch);
+            // sourceAccount.Credit(100);
+            var sourceAccount = ObjectMother.CreateBankAccount().WithBalance(500m);
+
+            // var targetAccount = new BankAccount(accountOwner, branch);;
+            // targetAccount.Credit(100);
+            var targetAccount = ObjectMother.CreateBankAccount().WithBalance(100m);
+
+            var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, 100m);
+
+            fundsTransfer.Execute();
+
+            Assert.That(sourceAccount.Balance, Is.EqualTo(400));
             Assert.That(targetAccount.Balance, Is.EqualTo(200));
             Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Completed));
         }
