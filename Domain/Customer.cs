@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Domain
+﻿namespace Domain
 {
     public class Customer
     {
@@ -8,8 +6,6 @@ namespace Domain
         private string lastName;
         private string fiscalIdentifier;
         private bool isBlocked;
-
-
 
         public Customer(string firstName, string lastName, string fiscalIdentifier)
         {

@@ -1,5 +1,4 @@
 using System;
-using FluentAssertions;
 using NUnit.Framework;
 
 namespace Domain.Tests
@@ -84,6 +83,5 @@ namespace Domain.Tests
 
             Assert.Throws<InvalidBankOperationException>(() => new FundsTransfer(sourceAccount, targetAccount, transferAmount));
         }
-
     }
 }

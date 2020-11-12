@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using FluentAssertions;
 
 namespace Domain.Tests
 {
@@ -8,7 +7,7 @@ namespace Domain.Tests
     public class BankAccountTest
     {
         [Test]
-        public void IsCreatedWithBalanceZero()
+        public void IsCreatedWithZeroBalance()
         {
             var firstName = "John";
             var lastName = "Doe";
@@ -73,7 +72,5 @@ namespace Domain.Tests
 
             Assert.Throws<InvalidBankOperationException>(() => bankAccount.Debit(-100m));
         }
-
-
     }
 }

@@ -7,6 +7,5 @@ namespace Domain
         public InvalidBankOperationException(string message) : base(message)
         {
         }
-
     }
 }
