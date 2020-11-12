@@ -35,7 +35,7 @@ namespace Domain
                 this.target.Credit(this.amount);
                 this.State = FundsTransferState.Completed;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 this.State = FundsTransferState.Failed;
                 throw;
