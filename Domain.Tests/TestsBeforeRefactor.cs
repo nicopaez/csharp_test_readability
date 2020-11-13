@@ -9,6 +9,7 @@ namespace Domain.Tests
         [Test]
         public void FundTransferStateIsPendingWhenCreated()
         {
+            // arrange
             var fiscalIdentifier = TestDataGenerator.NewGuid();
             var accountOwner = new Customer("John", "Doe", fiscalIdentifier);
             var address = new Address("Long Avenue", 1234, "London");
@@ -16,8 +17,10 @@ namespace Domain.Tests
             var sourceAccount = new BankAccount(accountOwner, branch);
             var targetAccount = new BankAccount(accountOwner, branch);
 
+            // act
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, 100m);
 
+            // assert
             Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Pending));
         }
 
@@ -32,9 +35,9 @@ namespace Domain.Tests
             sourceAccount.Credit(500);
             var targetAccount = new BankAccount(accountOwner, branch);;
             targetAccount.Credit(100);
-
             var fundsTransfer = new FundsTransfer(sourceAccount, targetAccount, 100m);
 
+            // act
             fundsTransfer.Execute();
 
             Assert.That(sourceAccount.Balance, Is.EqualTo(400));

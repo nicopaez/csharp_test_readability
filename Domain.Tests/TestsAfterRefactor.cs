@@ -27,23 +27,22 @@ namespace Domain.Tests
 
             fundsTransfer.Execute();
 
-            Assert.That(sourceAccount.Balance, Is.EqualTo(400));
-            Assert.That(targetAccount.Balance, Is.EqualTo(200));
-            Assert.That(fundsTransfer.State, Is.EqualTo(FundsTransferState.Completed));
+            // traditional nunit assertion
+            Assert.AreEqual(sourceAccount.Balance, 400m);
+
+            // "more readable" nunit assertion
+            Assert.That(sourceAccount.Balance, Is.EqualTo(400m));
+
+            // fluent assertion
+            sourceAccount.Balance.Should().Be(400m);
+
+            targetAccount.Balance.Should().Be(200m);
+            fundsTransfer.State.Should().Be(FundsTransferState.Completed);
         }
 
         [Test]
         public void SomeOtherTestWhereBranchIsRelevant()
         {
-            /*
-            var someAccount = ObjectMother
-                .CreateBankAccount()
-                .AtBranchNumber(1)
-                .WithBalance(500m);
-                */
-
-            #region end_solution
-
             var someAccount = ObjectBuilder
                 .BankAccount()
                 .ForCustomer("John")
@@ -54,9 +53,6 @@ namespace Domain.Tests
             someAccount.Customer.FirstName.Should().Be("John");
             someAccount.Branch.Number.Should().Be(1);
             someAccount.Balance.Should().Be(500m);
-
-            #endregion
-
         }
     }
 
